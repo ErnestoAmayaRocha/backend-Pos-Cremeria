@@ -3,6 +3,8 @@ const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
 const authenticateToken = require("./auth/authenticateToken");
+const productRoutes = require('./routes/product'); // Asegúrate de que esta ruta sea correcta
+
 const log = require("./lib/trace");
 require("dotenv").config();
 
@@ -22,10 +24,15 @@ async function main() {
 app.use("/api/signup", require("./routes/signup"));
 app.use("/api/login", require("./routes/login"));
 app.use("/api/signout", require("./routes/logout"));
+app.use('/api/products', productRoutes);
+app.use('/api/proveedores', require('./routes/proveedor'));
 
-// Ruta para renovar el token de acceso utilizando el token de actualización
+
+
+
+
+
 app.use("/api/refresh-token", require("./routes/refreshToken"));
-
 app.use("/api/posts", authenticateToken, require("./routes/posts"));
 // Ruta protegida que requiere autenticación
 /* app.get("/api/posts", authenticateToken, (req, res) => {
